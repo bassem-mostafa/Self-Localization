@@ -1,0 +1,35 @@
+# Install OpenCV 4.6 with NVidia CUDA 11.6
+
+# 1) clone/download opencv repository/archive checkout 4.6 tag
+# 2) clone/download opencv-contrib repository/archive checkout 4.6 tag/branch
+# 3) Download/Install Visual Studio 2022
+# 4) CUDA Install
+#   4.1) CUDA Download
+#       `https://developer.nvidia.com/cuda-11-6-2-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local`
+#   4.2) Run CUDA installer & follow the installer steps
+# 5) cuDNN Install
+#   5.1) cuDNN Download
+#       `https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html#install-windows`
+#   5.2) Follow the steps on the following URL
+#       `https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/`
+#       5.2.1) Copy all cuDNN files in their corresponding folders on CUDA installation folder
+# 6) Now Environment is ready
+# 7) Run Visual Studio
+#   7.1) Open opencv on visual studio as a folder
+#       7.1.1) you should see that it recognizes the cmake an ran it
+#   7.2) Open tab `project->CMake Settings for OpenCV`
+#   7.3) Append the following into CMake command arguments
+#       `-DPYTHON_DEFAULT_EXECUTABLE="python3.exe" -DCUDNN_LIBRARY="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDNN\lib\x64\cudnn.lib" -DCUDNN_INCLUDE_DIR="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDNN\include"`
+#   7.4) Configure the following
+#           CMAKE_BUILD_TYPE               Release
+#           CUDA_FAST_MATH                 ON
+#           ENABLE_FAST_MATH               ON
+#           OPENCV_EXTRA_MODULES_PATH      .../opencv_contrib/modules
+#           OPENCV_DNN_CUDA                ON
+#           OPENCV_ENABLE_NONFREE          ON
+#           WITH_CUDA                      ON
+#           WITH_CUDNN                     ON
+#   7.5) Install OpenCV
+# 8) Execute the following command in cmd/terminal
+#   `python3 -c "import cv2;print(cv2.__version__, cv2.getBuildInformation())"`
+# 9) Congratulations

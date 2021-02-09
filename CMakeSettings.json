@@ -1,0 +1,47 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Release",
+      "generator": "Ninja",
+      "configurationType": "Release",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\..\\opencv-build\\build\\${name}",
+      "installRoot": "${projectDir}\\..\\opencv-build\\install\\${name}",
+      "cmakeCommandArgs": "-DPYTHON_DEFAULT_EXECUTABLE=\"python3.exe\" ",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "WITH_CUDA",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "OPENCV_DNN_CUDA",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "ENABLE_FAST_MATH",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "OPENCV_EXTRA_MODULES_PATH",
+          "value": "C:/workspace/opencv_contrib-4.6.0/modules",
+          "type": "PATH"
+        },
+        {
+          "name": "CUDA_ARCH_BIN",
+          "value": "7.0;7.5;8.0;8.6",
+          "type": "STRING"
+        },
+        {
+          "name": "CUDA_FAST_MATH",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
+    }
+  ]
+}
