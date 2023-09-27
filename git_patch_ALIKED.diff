@@ -1,0 +1,63 @@
+diff --git a/custom_ops/__init__.py b/custom_ops/__init__.py
+index 776ce33..1add6dd 100644
+--- a/custom_ops/__init__.py
++++ b/custom_ops/__init__.py
+@@ -6,7 +6,7 @@ try:
+ 
+     from pathlib import Path
+     file_path = Path(__file__)
+-    for f in file_path.parent.glob('get_patches*.so'):
++    for f in file_path.parent.glob('get_patches*.pyd'):
+         torch.ops.load_library(f)
+     
+     class get_patches(torch.autograd.Function):
+diff --git a/custom_ops/get_patches.cpp b/custom_ops/get_patches.cpp
+index afb4a15..3035d34 100644
+--- a/custom_ops/get_patches.cpp
++++ b/custom_ops/get_patches.cpp
+@@ -30,7 +30,7 @@ torch::Tensor get_patches_forward_cpu(const torch::Tensor &map, torch::Tensor &p
+ 
+     // get patches
+     torch::Tensor patches = torch::zeros({N, C, kernel_size, kernel_size}, map.options());
+-    auto a_points = points.accessor<long, 2>();    // Nx2
++    auto a_points = points.accessor<long long, 2>();    // Nx2
+     auto a_map_pad = map_pad.accessor<float, 3>(); // Cx(H+2*radius)x(W+2*radius)
+     auto a_patches = patches.accessor<float, 4>(); // N x C x kernel_size x kernel_size
+ 
+@@ -79,13 +79,13 @@ torch::Tensor get_patches_backward_cpu(const torch::Tensor &d_patches, torch::Te
+ 
+     torch::Tensor d_map_pad = torch::zeros({C, H + int(2 * radius), W + int(2 * radius)}, d_patches.options());
+ 
+-    auto a_points = points.accessor<long, 2>();        // Nx2
++    auto a_points = points.accessor<long long, 2>();        // Nx2
+     auto a_d_map_pad = d_map_pad.accessor<float, 3>(); // Cx(H+2*radius)x(W+2*radius)
+     auto a_p_patches = d_patches.accessor<float, 4>(); // NxCxkernel_sizexkernel_size
+     for (auto in = 0; in < N; in++)
+     {
+-        // long w_start = static_cast<long>(*(p_points + in * 2 + 0));
+-        // long h_start = static_cast<long>(*(p_points + in * 2 + 1));
++        // long long w_start = static_cast<long long>(*(p_points + in * 2 + 0));
++        // long long h_start = static_cast<long long>(*(p_points + in * 2 + 1));
+         auto w_start = a_points[in][0];
+         auto h_start = a_points[in][1];
+ 
+@@ -128,13 +128,13 @@ torch::Tensor get_patches_backward(const torch::Tensor &d_patches, torch::Tensor
+         return get_patches_backward_cuda(d_patches, points, H, W);
+ }
+ 
+-// PYBIND11_MODULE(get_patches, m)
+-// {
+-//     m.doc() = "Get patches for a CxHxW map of Nx2 locations.";
++PYBIND11_MODULE(get_patches, m)
++{
++ m.doc() = "Get patches for a CxHxW map of Nx2 locations.";
+ 
+-//     m.def("get_patches_forward", &get_patches_forward, "get_patches forward");
+-//     m.def("get_patches_backward", &get_patches_backward, "get_patches backward");
+-// }
++ m.def("get_patches_forward", &get_patches_forward, "get_patches forward");
++ m.def("get_patches_backward", &get_patches_backward, "get_patches backward");
++}
+ 
+ TORCH_LIBRARY(custom_ops, m)
+ {

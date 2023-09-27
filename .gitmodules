@@ -1,0 +1,15 @@
+[submodule "submodule(s)/opencv-python"]
+	path = submodule(s)/opencv-python
+	url = https://github.com/opencv/opencv-python.git
+[submodule "submodule(s)/hpatches-benchmark"]
+	path = submodule(s)/hpatches-benchmark
+	url = https://github.com/hpatches/hpatches-benchmark.git
+[submodule "submodule(s)/ALIKED"]
+	path = submodule(s)/ALIKED
+	url = https://github.com/Shiaoming/ALIKED.git
+[submodule "submodule(s)/silk"]
+	path = submodule(s)/silk
+	url = https://github.com/facebookresearch/silk.git
+[submodule "submodule(s)/ALIKE"]
+	path = submodule(s)/ALIKE
+	url = https://github.com/Shiaoming/ALIKE.git

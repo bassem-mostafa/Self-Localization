@@ -1,0 +1,119 @@
+diff --git a/bin/public-pull-assets b/bin/public-pull-assets
+index 1f51a6e..276c86a 100755
+--- a/bin/public-pull-assets
++++ b/bin/public-pull-assets
+@@ -6,6 +6,9 @@ while read -r line; do
+   file_url="$public_url/$line"
+   file_path="${line#"silk/"}"
+   dir_path="$(dirname $file_path)"
++  file_url=${file_url:0:-1}
++  file_path=${file_path:0:-1}
+   mkdir -p "$dir_path"
+-  wget -xv "$file_url" -O "./$file_path"
++  echo "DEBUG>> wget64 -xv "$file_url" -O "./$file_path""
++  wget64 -xv "$file_url" -O "./$file_path"
+ done < assets/public-assets.txt
+diff --git a/bin/run_tests b/bin/run_tests
+index 433595f..a5cc76a 100755
+--- a/bin/run_tests
++++ b/bin/run_tests
+@@ -1,7 +1,9 @@
+ #!/bin/bash
+ 
+ BIN_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+-ROOT_DIR="$BIN_DIR/.."
++ROOT_DIR="${BIN_DIR:0:-4}"
+ 
++echo "BIN_DIR = ${BIN_DIR}"
++echo "ROOT_DIR = ${ROOT_DIR}"
+ # shellcheck disable=SC2086
+-python -m unittest discover -f -v -s $ROOT_DIR/lib -p "*_test.py"
++python3 -m unittest discover -f -v -s $ROOT_DIR/lib -p "*_test.py"
+diff --git a/requirements.txt b/requirements.txt
+index f6e029a..7803e2a 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,25 +1,25 @@
+-loguru>=0.5
+-autoflake>=1.4
+-black==21.10b0
+-matplotlib>=3.3
+-pdoc3>=0.10
+-hydra-core==1.2.0
+-omegaconf==2.2.3
+-torch==1.11.0+cu113
+-torchvision==0.12.0+cu113
+-scikit-image==0.19.3
+-pycocotools>=2.0
+-jaxlib[cuda112]==0.3.25
+-jax==0.3.25
+-pyyaml==6.0
+-typing-extensions==4.3.0
+-pytorchvideo==0.1.5
+-imageio==2.19.3
+-diskcache==5.4.0
+-pytorch-lightning==1.5.2
+-einops==0.4.1
+-kornia==0.6.6
+-torchmetrics==0.6.0
+-albumentations==1.3.0
+-schema==0.6.8
+-docopt==0.6.2
++loguru
++autoflake
++black
++matplotlib
++pdoc3
++hydra-core
++omegaconf
++#torch
++#torchvision
++scikit-image
++pycocotools
++jaxlib[cuda118]
++jax
++pyyaml
++typing-extensions
++pytorchvideo
++imageio
++diskcache
++pytorch-lightning
++einops
++kornia
++torchmetrics
++albumentations
++schema
++docopt
+diff --git a/setup.py b/setup.py
+index 4c9af48..efe721d 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,10 +1,20 @@
+ #!/usr/bin/env python3
+ 
+ from distutils.core import setup
++from pkgutil import walk_packages
+ 
+ from pip._internal.network.session import PipSession
+ from pip._internal.req import parse_requirements
+ 
++import silk
++
++def find_packages(path=silk.__path__, prefix=""):
++    yield prefix
++    prefix = prefix + "."
++    for _, name, ispkg in walk_packages(path, prefix):
++        if ispkg:
++            yield name
++
+ 
+ def load_requirements(fname):
+     reqs = parse_requirements(fname, session=PipSession())
+@@ -18,6 +28,6 @@ setup(
+     author="Pierre Gleize, Weiyao Wang, Matt Feiszli",
+     author_email="gleize@meta.com",
+     url="https://github.com/facebookresearch/silk",
+-    packages=["silk"],
++    packages=list(find_packages(silk.__path__, silk.__name__)),
+     install_requires=load_requirements("requirements.txt"),
+ )
