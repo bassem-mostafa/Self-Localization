@@ -19,7 +19,7 @@
 #       7.1.1) you should see that it recognizes the cmake an ran it
 #   7.2) Open tab `project->CMake Settings for OpenCV`
 #   7.3) Append the following into CMake command arguments
-#       `-DPYTHON_DEFAULT_EXECUTABLE="python3.exe" -DCUDNN_LIBRARY="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDNN\lib\x64\cudnn.lib" -DCUDNN_INCLUDE_DIR="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDNN\include"`
+#       `-DPYTHON_DEFAULT_EXECUTABLE="python3.exe" -DCUDNN_LIBRARY="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\lib\x64\cudnn.lib" -DCUDNN_INCLUDE_DIR="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include"`
 #   7.4) Configure the following
 #           CMAKE_BUILD_TYPE               Release
 #           CUDA_FAST_MATH                 ON
