@@ -29,7 +29,34 @@
 #           OPENCV_ENABLE_NONFREE          ON
 #           WITH_CUDA                      ON
 #           WITH_CUDNN                     ON
-#   7.5) Install OpenCV
+#   7.5) Make sure that python3 interpreter is detected in opencv configuration before build
+#          `...
+#           
+#             Python 3:
+#               Interpreter:                 C:/Users/BaSSeM/AppData/Local/Programs/Python/Python310/python3.exe (ver 3.10.11)
+#               Libraries:                   C:/Users/BaSSeM/AppData/Local/Programs/Python/Python310/libs/python310.lib (ver 3.10.11)
+#               numpy:                       C:/Users/BaSSeM/AppData/Local/Programs/Python/Python310/lib/site-packages/numpy/core/include (ver 1.26.4)
+#               install path:                C:/Users/BaSSeM/AppData/Local/Programs/Python/Python310/Lib/site-packages/cv2/python-3.10
+#           
+#             Python (for build):            python3.exe
+#           
+#           ...`
+#   7.6) Build OpenCV
+#   7.7) Install OpenCV
 # 8) Execute the following command in cmd/terminal
 #   `python3 -c "import cv2;print(cv2.__version__, cv2.getBuildInformation())"`
 # 9) Congratulations
+#
+#
+#
+#
+# Issue(s)
+#   - ImportError: DLL load failed: The paging file is too small for this operation to complete
+#       FIX: 1)- Windows + pause key
+#            2)- Advanced system settings
+#            3)- Advanced tab
+#            4)- Performance - Settings button
+#            5)- Advanced tab - Change button
+#            6)- Uncheck the "Automatically... BLA BLA" checkbox
+#            7)- Select the System managed size option box.
+#            8)- OK, OK, OK..... Restart PC.
