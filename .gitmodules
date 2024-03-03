@@ -1,6 +1,3 @@
-[submodule "submodule(s)/opencv-python"]
-	path = submodule(s)/opencv-python
-	url = https://github.com/opencv/opencv-python.git
 [submodule "submodule(s)/hpatches-benchmark"]
 	path = submodule(s)/hpatches-benchmark
 	url = https://github.com/hpatches/hpatches-benchmark.git
